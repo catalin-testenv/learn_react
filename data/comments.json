@@ -1,5 +1,5 @@
 [
-  {"author": "Pete Hunt", "text": "This is one comment"},
-  {"author": "Jordan Walke", "text": "This is *another* comment"},
-  {"author": "Billy Joe", "text": "This is yet *another* comment"}
+  {"id":1, "author": "Pete Hunt", "text": "This is one comment"},
+  {"id":2, "author": "Jordan Walke", "text": "This is *another* comment"},
+  {"id":3, "author": "Billy Joe", "text": "This is yet *another* comment"}
 ]

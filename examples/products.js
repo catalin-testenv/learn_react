@@ -1,3 +1,7 @@
+'use strict';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 var ProductCategoryRow = React.createClass({
     render: function() {
@@ -23,7 +27,6 @@ var ProductRow = React.createClass({
 
 var ProductTable = React.createClass({
     render: function() {
-        console.log(this.props);
         var rows = [];
         var lastCategory = null;
         this.props.products.forEach(function(product) {
@@ -53,8 +56,8 @@ var ProductTable = React.createClass({
 var SearchBar = React.createClass({
     handleChange: function() {
         this.props.onUserInput(
-            this.refs.filterTextInput.getDOMNode().value,
-            this.refs.inStockOnlyInput.getDOMNode().checked
+            this.refs.filterTextInput.value,
+            this.refs.inStockOnlyInput.checked
         );
     },
     render: function() {
@@ -66,14 +69,14 @@ var SearchBar = React.createClass({
                     value={this.props.filterText}
                     ref="filterTextInput"
                     onChange={this.handleChange}
-                    />
+                />
                 <p>
                     <input
                         type="checkbox"
                         checked={this.props.inStockOnly}
                         ref="inStockOnlyInput"
                         onChange={this.handleChange}
-                        />
+                    />
                     {' '}
                     Only show products in stock
                 </p>
@@ -89,12 +92,14 @@ var FilterableProductTable = React.createClass({
             inStockOnly: false
         };
     },
+
     handleUserInput: function(filterText, inStockOnly) {
         this.setState({
             filterText: filterText,
             inStockOnly: inStockOnly
         });
     },
+
     render: function() {
         return (
             <div>
@@ -102,16 +107,17 @@ var FilterableProductTable = React.createClass({
                     filterText={this.state.filterText}
                     inStockOnly={this.state.inStockOnly}
                     onUserInput={this.handleUserInput}
-                    />
+                />
                 <ProductTable
                     products={this.props.products}
                     filterText={this.state.filterText}
                     inStockOnly={this.state.inStockOnly}
-                    />
+                />
             </div>
         );
     }
 });
+
 
 var PRODUCTS = [
     {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
@@ -122,4 +128,11 @@ var PRODUCTS = [
     {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
 ];
 
-React.render(<FilterableProductTable products={PRODUCTS} />, document.getElementById('content'));
+
+
+export function play () {
+    ReactDOM.render(
+        <FilterableProductTable products={PRODUCTS} />,
+        document.getElementById('content')
+    );
+}

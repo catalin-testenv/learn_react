@@ -1,0 +1,30 @@
+{
+  "name": "react_learn",
+  "version": "0.0.1",
+  "description": "play with react",
+  "author": "catalinenache78s@gmail.com",
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "lodash": "^3.10.1",
+    "react": "^0.14.3",
+    "react-addons-linked-state-mixin": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-tools": "^0.13.3"
+  },
+  "devDependencies": {
+    "browserify": "^12.0.1",
+    "babel": "^6.1.18",
+    "babel-polyfill": "^6.2.0",
+    "babelify": "^7.2.0",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-es2015": "^6.1.18",
+    "uglify-js": "^2.6.1"
+  },
+  "scripts": {
+    "setup": "npm install",
+    "browserify": "browserify -t babelify -o dist/bundle.js src/app.js",
+    "browserify-debug": "browserify -d -t babelify -o bundle.js app.js",
+    "uglify": "uglifyjs bundle.js -c -o bundle.min.js",
+    "js": "npm run browserify"
+  }
+}
