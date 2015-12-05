@@ -1,0 +1,23 @@
+{
+  "name": "learn_react",
+  "description": "learn react",
+  "main": "",
+  "authors": [
+    "catalinenache78s@gmail.com"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/catalin-testenv/learn_react",
+  "moduleType": [
+    "es6"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
