@@ -4,6 +4,8 @@
 import 'babel-polyfill';
 import jQuery from 'jquery';
 window.jQuery = window.$ = jQuery;
+import _ from 'lodash';
+window._ = _;
 
 // examples ... choose one
 
