@@ -44,7 +44,7 @@ let data = [
 ];
 
 let selectGame = function () {
-    var books = _.shuffle(this.reduce(function (p, c, i) {
+    var books = _.shuffle(this.reduce(function (p, c) {
         return p.concat(c.books);
     }, [])).slice(0,4);
 
@@ -73,7 +73,7 @@ let Highlight = {
         //node.slideUp();
         //node.slideDown();
     }
-}
+};
 
 let Quiz = React.createClass({
     propTypes: {
@@ -107,10 +107,10 @@ let Quiz = React.createClass({
                     </div>
                     <div className="col-md-7">
                         {this.state.books.map(function (b) {
-                            return <Book onBookSelected={this.handleBookSelected} key={b} title={b}/>
+                            return <Book onBookSelected={this.handleBookSelected} key={b} title={b}/>;
                         }, this)}
                     </div>
-                    <div className={"col-md-1 " + this.state.bgClass}></div>
+                    <div className={'col-md-1 ' + this.state.bgClass}></div>
                 </div>
                 {this.state.showContinue ? (
                     <div className="row">

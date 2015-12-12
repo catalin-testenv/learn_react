@@ -5,7 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import LinkedStateMixin from 'react-addons-linked-state-mixin'
+import LinkedStateMixin from 'react-addons-linked-state-mixin';
 
 var ProductCategoryRow = React.createClass({
     render: function() {
