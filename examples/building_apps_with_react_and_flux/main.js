@@ -1,17 +1,20 @@
 'use strict';
 
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Home from './homePage';
 import About from './about/aboutPage';
 import Header from './common/header';
+import Authors from './authors/authorPage';
 
 let App = React.createClass({
     render() {
-        var Child = Home;
+        let Child;
         switch (this.props.route) {
             case 'about': Child = About; break;
+            case 'authors': Child = Authors; break;
             default: Child = Home;
         }
 
@@ -37,3 +40,9 @@ window.addEventListener('hashchange', render);
 export function play () {
     render();
 }
+
+/*
+export function play () {
+
+}
+*/

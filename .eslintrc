@@ -29,7 +29,6 @@
     "no-inner-declarations": 1,
     "block-scoped-var": 2,
     "no-redeclare": 2,
-    "init-declarations": 2,
     "no-undef": 2,
     "no-unused-vars": 1,
     "flow-vars/define-flow-type": 1,
