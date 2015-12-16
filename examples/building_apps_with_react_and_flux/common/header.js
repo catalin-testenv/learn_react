@@ -1,19 +1,22 @@
 'use strict';
 
 let React = require('react');
+import { Link, IndexLink } from 'react-router';
 
 let Header = React.createClass({
     render: function() {
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
-                    <a href="/" className="navbar-brand">
+                    <a href="/play.html" className="navbar-brand">
                         <img src="examples/building_apps_with_react_and_flux/images/pluralsight-logo.png" />
                     </a>
                     <ul className="nav navbar-nav">
-                        <li><a href="/play.html#">Home</a></li>
-                        <li><a href="/play.html#authors">Authors</a></li>
-                        <li><a href="/play.html#about">About</a></li>
+                        <li><IndexLink to="/play.html" activeStyle={{fontWeight: 'bold'}}>Home</IndexLink></li>
+                        <li><Link to="/play.html/authors" activeStyle={{fontWeight: 'bold'}}>Authors</Link></li>
+                        <li><Link to="/play.html/about" activeStyle={{fontWeight: 'bold'}}>About</Link></li>
+                        <li><Link to="/play.html/about-us" activeStyle={{fontWeight: 'bold'}}>About-us</Link></li>
+                        <li><Link to="/play.html/undefined" activeStyle={{fontWeight: 'bold'}}>Undefined</Link></li>
                     </ul>
                 </div>
             </nav>

@@ -19,7 +19,7 @@
     "jQuery": true,
     "$": true,
     "_": true,
-    "routie": true
+    "routie": true,
   },
 
   "rules": {

@@ -67,13 +67,16 @@ let selectGame = function () {
 
 data.selectGame = selectGame;
 
+/*eslint-disable no-unused-vars*/
 let Highlight = {
     componentDidMount () {
-        let node = $(ReactDOM.findDOMNode(this));
+        //let node = $(ReactDOM.findDOMNode(this));
         //node.slideUp();
         //node.slideDown();
     }
 };
+/*eslint-enable no-unused-vars*/
+
 
 let Quiz = React.createClass({
     propTypes: {
