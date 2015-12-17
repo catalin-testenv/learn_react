@@ -400,10 +400,16 @@ var ManageAuthorPage = _react2.default.createClass({
 		};
 	},
 
-	routerWillLeave: function routerWillLeave(nextLocation) {
-		console.log('----routerWillLeave inside manageAuthorPage');
+	routerWillLeave: function routerWillLeave() {
 		if (this.state.dirty && !confirm('Leave without saving?')) {
 			return false;
+		}
+	},
+
+	componentWillMount: function componentWillMount() {
+		var authorId = this.props.params.id; //from the path '/author:id'
+		if (authorId) {
+			this.setState({ author: _authorApi2.default.getAuthorById(authorId) });
 		}
 	},
 
@@ -568,7 +574,7 @@ var Input = _react2.default.createClass({
   render: function render() {
     var wrapperClass = 'form-group';
     if (this.props.error && this.props.error.length > 0) {
-      wrapperClass += " " + 'has-error';
+      wrapperClass += ' ' + 'has-error';
     }
 
     return _react2.default.createElement(
@@ -681,7 +687,6 @@ export function play () {
 }
 */
 
-var _arguments = arguments;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -748,9 +753,7 @@ var Routes = _react2.default.createElement(
         { path: '/play.html', component: App },
         _react2.default.createElement(_reactRouter.IndexRoute, { component: _homePage2.default, onLeave: function onLeave() {}, onEnter: function onEnter(location, replaceWith) {} }),
         _react2.default.createElement(_reactRouter.Route, { path: '/play.html/authors', component: _authorPage2.default }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/play.html/author', onLeave: function onLeave() {
-                console.log('----on leave Outside manageAuthorPage');console.log(_arguments);return false;
-            }, component: _manageAuthorPage2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: '/play.html/author', onLeave: function onLeave() {}, component: _manageAuthorPage2.default }),
         _react2.default.createElement(_reactRouter.Route, { path: '/play.html/author/:id', component: _manageAuthorPage2.default }),
         _react2.default.createElement(_reactRouter.Route, { path: '/play.html/about', component: _aboutPage2.default }),
         _react2.default.createElement(_reactRouter.Redirect, { from: '/play.html/about/*', to: 'about' }),
