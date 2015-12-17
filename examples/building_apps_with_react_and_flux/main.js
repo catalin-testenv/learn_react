@@ -50,6 +50,7 @@ import { createHistory, createHashHistory } from 'history/lib';
 
 import Header from './common/header';
 import AuthorPage from './authors/authorPage';
+import ManageAuthorPage from './authors/manageAuthorPage';
 import AboutPage from './about/aboutPage';
 import HomePage from './homePage';
 import NotFoundPage from './notFoundPage';
@@ -70,8 +71,10 @@ const App = React.createClass({
 var Routes = (
     <Router history={createHistory()}>
         <Route path="/play.html" component={App}>
-            <IndexRoute component={HomePage} onLeave={() => {console.log(`leaving ${this}`)}} onEnter={(location, replaceWith) => {console.log(`entering ${location} | ${replaceWith}`)}} />
+            <IndexRoute component={HomePage} onLeave={() => {}} onEnter={(location, replaceWith) => {}} />
             <Route path="/play.html/authors" component={AuthorPage} />
+            <Route path="/play.html/author" onLeave={() => {}} component={ManageAuthorPage} />
+            <Route path="/play.html/author/:id" component={ManageAuthorPage} />
             <Route path="/play.html/about" component={AboutPage} />
             <Redirect from="/play.html/about/*" to="about" />
             <Redirect from="/play.html/awthurs" to="authors" />
