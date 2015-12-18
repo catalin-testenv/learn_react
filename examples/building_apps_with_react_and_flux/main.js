@@ -48,6 +48,9 @@ import { render } from 'react-dom';
 import { Router, Route, IndexRoute, Redirect } from 'react-router';
 import { createHistory, createHashHistory } from 'history/lib';
 
+import InitializeActions from './actions/initializeActions';
+InitializeActions.initApp();
+
 import Header from './common/header';
 import AuthorPage from './authors/authorPage';
 import ManageAuthorPage from './authors/manageAuthorPage';

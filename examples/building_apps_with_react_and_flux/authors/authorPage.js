@@ -1,21 +1,29 @@
 'use strict';
 
 import React from 'react';
-import AuthorApi from '../api/authorApi';
+import AuthorActions from '../actions/authorActions';
+import AuthorStore from '../stores/authorStore';
 import AuthorList from './authorList';
 import { Link } from 'react-router';
 
 var AuthorPage = React.createClass({
 	getInitialState: function() {
 		return {
-			authors: []
+			authors: AuthorStore.getAllAuthors()
 		};
 	},
 
-	componentDidMount: function() {
-		if (this.isMounted()) {
-			this.setState({ authors: AuthorApi.getAllAuthors() });
-		}
+	componentWillMount: function() {
+		AuthorStore.addChangeListener(this._onChange);
+	},
+
+	//Clean up when this component is unmounted
+	componentWillUnmount: function() {
+		AuthorStore.removeChangeListener(this._onChange);
+	},
+
+	_onChange: function() {
+		this.setState({ authors: AuthorStore.getAllAuthors() });
 	},
 
 	render: function() {

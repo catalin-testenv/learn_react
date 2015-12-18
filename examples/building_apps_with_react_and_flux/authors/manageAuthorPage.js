@@ -3,7 +3,8 @@
 import React from 'react';
 import {History, Lifecycle} from 'react-router';
 import AuthorForm from './authorForm';
-import AuthorApi from '../api/authorApi';
+import AuthorActions from '../actions/authorActions';
+import AuthorStore from '../stores/authorStore';
 import toastr from 'toastr';
 
 
@@ -28,7 +29,7 @@ const ManageAuthorPage = React.createClass({
 	componentWillMount: function() {
 		var authorId = this.props.params.id; //from the path '/author:id'
 		if (authorId) {
-			this.setState({author: AuthorApi.getAuthorById(authorId) });
+			this.setState({author: AuthorStore.getAuthorById(authorId) });
 		}
 	},
 
@@ -65,8 +66,15 @@ const ManageAuthorPage = React.createClass({
 			return;
 		}
 
-		AuthorApi.saveAuthor(this.state.author);
+		if (this.state.author.id) {
+			AuthorActions.updateAuthor(this.state.author);
+		} else {
+			AuthorActions.createAuthor(this.state.author);
+		}
+
+		AuthorActions.createAuthor(this.state.author);
 		this.setState({dirty: false});
+
 		toastr.success('Author saved.');
 		this.history.pushState(null, '/play.html/authors');
 	},
