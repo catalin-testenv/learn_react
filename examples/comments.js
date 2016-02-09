@@ -3,8 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-let Comment = React.createClass({
-    render: function() {
+class Comment extends React.Component {
+    render() {
         return (
             <div className="comment">
                 <h2 className="commentAuthor">
@@ -14,10 +14,10 @@ let Comment = React.createClass({
             </div>
         );
     }
-});
+}
 
-let CommentList = React.createClass({
-    render: function() {
+class CommentList extends React.Component {
+    render() {
         var commentNodes = this.props.data.map(function(comment) {
             return (
                 <Comment author={comment.author} key={comment.id}>
@@ -31,19 +31,20 @@ let CommentList = React.createClass({
             </div>
         );
     }
-});
+}
 
-let CommentForm = React.createClass({
-    getInitialState: function() {
-        return {author: '', text: ''};
-    },
-    handleAuthorChange: function(e) {
+class CommentForm extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {author: '', text: ''};
+    }
+    handleAuthorChange(e) {
         this.setState({author: e.target.value});
-    },
-    handleTextChange: function(e) {
+    }
+    handleTextChange(e) {
         this.setState({text: e.target.value});
-    },
-    handleSubmit: function(e) {
+    }
+    handleSubmit(e) {
         e.preventDefault();
         var author = this.state.author.trim();
         var text = this.state.text.trim();
@@ -52,30 +53,39 @@ let CommentForm = React.createClass({
         }
         this.props.onCommentSubmit({author: author, text: text});
         this.setState({author: '', text: ''});
-    },
-    render: function() {
+    }
+    render() {
         return (
-            <form className="commentForm" onSubmit={this.handleSubmit}>
+            <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
                 <input
                     type="text"
                     placeholder="Your name"
                     value={this.state.author}
-                    onChange={this.handleAuthorChange}
+                    onChange={this.handleAuthorChange.bind(this)}
                 />
                 <input
                     type="text"
                     placeholder="Say something..."
                     value={this.state.text}
-                    onChange={this.handleTextChange}
+                    onChange={this.handleTextChange.bind(this)}
                 />
                 <input type="submit" value="Post" />
             </form>
         );
     }
-});
+}
 
-let CommentBox = React.createClass({displayName: 'CommentBox',
-    loadCommentsFromServer: function() {
+class CommentBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {data: []};
+    }
+
+    componentDidMount() {
+        this.loadCommentsFromServer();
+    }
+
+    loadCommentsFromServer() {
         $.ajax({
             url: this.props.url,
             dataType: 'json',
@@ -87,31 +97,25 @@ let CommentBox = React.createClass({displayName: 'CommentBox',
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
-    },
-    getInitialState: function() {
-        return {data: []};
-    },
-    componentDidMount: function() {
-        this.loadCommentsFromServer();
-    },
-    handleCommentSubmit: function(comment) {
+    }
+
+    handleCommentSubmit(comment) {
         var comments = this.state.data;
         comment.id = Date.now();
         var newComments = comments.concat([comment]);
         this.setState({data: newComments});
-    },
-    render: function() {
+    }
+
+    render() {
         return (
             <div className="commentBox">
                 <h1>Comments</h1>
                 <CommentList data={this.state.data} />
-                <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+                <CommentForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
             </div>
         );
     }
-});
-
-
+}
 
 export function play () {
     ReactDOM.render(

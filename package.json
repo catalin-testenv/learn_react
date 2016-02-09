@@ -28,7 +28,8 @@
     "eslint": "^1.10.3",
     "eslint-plugin-flow-vars": "^0.1.1",
     "eslint-plugin-react": "^3.11.3",
-    "uglify-js": "^2.6.1"
+    "uglify-js": "^2.6.1",
+    "http-server": "latest"
   },
   "scripts": {
     "setup": "npm install && bower install",
@@ -36,6 +37,7 @@
     "browserify-debug": "browserify -d -t babelify -o bundle.js app.js",
     "uglify": "uglifyjs bundle.js -c -o bundle.min.js",
     "lint": "eslint src/** examples/**; exit 0",
-    "js": "npm run browserify"
+    "js": "npm run browserify",
+    "serve": "node node_modules/http-server/bin/http-server -a 0.0.0.0 -p 8001 -c-1"
   }
 }

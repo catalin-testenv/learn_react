@@ -1,6 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -16,125 +18,189 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Comment = _react2.default.createClass({
-    displayName: 'Comment',
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { className: 'comment' },
-            _react2.default.createElement(
-                'h2',
-                { className: 'commentAuthor' },
-                this.props.author
-            ),
-            this.props.children
-        );
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Comment = (function (_React$Component) {
+    _inherits(Comment, _React$Component);
+
+    function Comment() {
+        _classCallCheck(this, Comment);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(Comment).apply(this, arguments));
     }
-});
 
-var CommentList = _react2.default.createClass({
-    displayName: 'CommentList',
-
-    render: function render() {
-        var commentNodes = this.props.data.map(function (comment) {
+    _createClass(Comment, [{
+        key: 'render',
+        value: function render() {
             return _react2.default.createElement(
-                Comment,
-                { author: comment.author, key: comment.id },
-                comment.text
+                'div',
+                { className: 'comment' },
+                _react2.default.createElement(
+                    'h2',
+                    { className: 'commentAuthor' },
+                    this.props.author
+                ),
+                this.props.children
             );
-        });
-        return _react2.default.createElement(
-            'div',
-            { className: 'commentList' },
-            commentNodes
-        );
-    }
-});
-
-var CommentForm = _react2.default.createClass({
-    displayName: 'CommentForm',
-
-    getInitialState: function getInitialState() {
-        return { author: '', text: '' };
-    },
-    handleAuthorChange: function handleAuthorChange(e) {
-        this.setState({ author: e.target.value });
-    },
-    handleTextChange: function handleTextChange(e) {
-        this.setState({ text: e.target.value });
-    },
-    handleSubmit: function handleSubmit(e) {
-        e.preventDefault();
-        var author = this.state.author.trim();
-        var text = this.state.text.trim();
-        if (!text || !author) {
-            return;
         }
-        this.props.onCommentSubmit({ author: author, text: text });
-        this.setState({ author: '', text: '' });
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'form',
-            { className: 'commentForm', onSubmit: this.handleSubmit },
-            _react2.default.createElement('input', {
-                type: 'text',
-                placeholder: 'Your name',
-                value: this.state.author,
-                onChange: this.handleAuthorChange
-            }),
-            _react2.default.createElement('input', {
-                type: 'text',
-                placeholder: 'Say something...',
-                value: this.state.text,
-                onChange: this.handleTextChange
-            }),
-            _react2.default.createElement('input', { type: 'submit', value: 'Post' })
-        );
-    }
-});
+    }]);
 
-var CommentBox = _react2.default.createClass({ displayName: 'CommentBox',
-    loadCommentsFromServer: function loadCommentsFromServer() {
-        $.ajax({
-            url: this.props.url,
-            dataType: 'json',
-            cache: false,
-            success: (function (data) {
-                this.setState({ data: data });
-            }).bind(this),
-            error: (function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
-            }).bind(this)
-        });
-    },
-    getInitialState: function getInitialState() {
-        return { data: [] };
-    },
-    componentDidMount: function componentDidMount() {
-        this.loadCommentsFromServer();
-    },
-    handleCommentSubmit: function handleCommentSubmit(comment) {
-        var comments = this.state.data;
-        comment.id = Date.now();
-        var newComments = comments.concat([comment]);
-        this.setState({ data: newComments });
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { className: 'commentBox' },
-            _react2.default.createElement(
-                'h1',
-                null,
-                'Comments'
-            ),
-            _react2.default.createElement(CommentList, { data: this.state.data }),
-            _react2.default.createElement(CommentForm, { onCommentSubmit: this.handleCommentSubmit })
-        );
+    return Comment;
+})(_react2.default.Component);
+
+var CommentList = (function (_React$Component2) {
+    _inherits(CommentList, _React$Component2);
+
+    function CommentList() {
+        _classCallCheck(this, CommentList);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(CommentList).apply(this, arguments));
     }
-});
+
+    _createClass(CommentList, [{
+        key: 'render',
+        value: function render() {
+            var commentNodes = this.props.data.map(function (comment) {
+                return _react2.default.createElement(
+                    Comment,
+                    { author: comment.author, key: comment.id },
+                    comment.text
+                );
+            });
+            return _react2.default.createElement(
+                'div',
+                { className: 'commentList' },
+                commentNodes
+            );
+        }
+    }]);
+
+    return CommentList;
+})(_react2.default.Component);
+
+var CommentForm = (function (_React$Component3) {
+    _inherits(CommentForm, _React$Component3);
+
+    function CommentForm(props) {
+        _classCallCheck(this, CommentForm);
+
+        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this, props));
+
+        _this3.state = { author: '', text: '' };
+        return _this3;
+    }
+
+    _createClass(CommentForm, [{
+        key: 'handleAuthorChange',
+        value: function handleAuthorChange(e) {
+            this.setState({ author: e.target.value });
+        }
+    }, {
+        key: 'handleTextChange',
+        value: function handleTextChange(e) {
+            this.setState({ text: e.target.value });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(e) {
+            e.preventDefault();
+            var author = this.state.author.trim();
+            var text = this.state.text.trim();
+            if (!text || !author) {
+                return;
+            }
+            this.props.onCommentSubmit({ author: author, text: text });
+            this.setState({ author: '', text: '' });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'form',
+                { className: 'commentForm', onSubmit: this.handleSubmit.bind(this) },
+                _react2.default.createElement('input', {
+                    type: 'text',
+                    placeholder: 'Your name',
+                    value: this.state.author,
+                    onChange: this.handleAuthorChange.bind(this)
+                }),
+                _react2.default.createElement('input', {
+                    type: 'text',
+                    placeholder: 'Say something...',
+                    value: this.state.text,
+                    onChange: this.handleTextChange.bind(this)
+                }),
+                _react2.default.createElement('input', { type: 'submit', value: 'Post' })
+            );
+        }
+    }]);
+
+    return CommentForm;
+})(_react2.default.Component);
+
+var CommentBox = (function (_React$Component4) {
+    _inherits(CommentBox, _React$Component4);
+
+    function CommentBox(props) {
+        _classCallCheck(this, CommentBox);
+
+        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentBox).call(this, props));
+
+        _this4.state = { data: [] };
+        return _this4;
+    }
+
+    _createClass(CommentBox, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.loadCommentsFromServer();
+        }
+    }, {
+        key: 'loadCommentsFromServer',
+        value: function loadCommentsFromServer() {
+            $.ajax({
+                url: this.props.url,
+                dataType: 'json',
+                cache: false,
+                success: (function (data) {
+                    this.setState({ data: data });
+                }).bind(this),
+                error: (function (xhr, status, err) {
+                    console.error(this.props.url, status, err.toString());
+                }).bind(this)
+            });
+        }
+    }, {
+        key: 'handleCommentSubmit',
+        value: function handleCommentSubmit(comment) {
+            var comments = this.state.data;
+            comment.id = Date.now();
+            var newComments = comments.concat([comment]);
+            this.setState({ data: newComments });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'commentBox' },
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Comments'
+                ),
+                _react2.default.createElement(CommentList, { data: this.state.data }),
+                _react2.default.createElement(CommentForm, { onCommentSubmit: this.handleCommentSubmit.bind(this) })
+            );
+        }
+    }]);
+
+    return CommentBox;
+})(_react2.default.Component);
 
 function play() {
     _reactDom2.default.render(_react2.default.createElement(CommentBox, { url: '/data/comments.json' }), document.getElementById('content'));
