@@ -9,10 +9,10 @@ window._ = _;
 
 // examples ... choose one
 
-//import {play} from  '../examples/comments';
+import {play} from  '../examples/comments';
 //import {play} from  '../examples/products';
 //import {play} from  '../examples/products_react_link';
 //import {play} from  '../examples/author_quiz'; // has css/author_quiz.css dependency
-import {play} from  '../examples/building_apps_with_react_and_flux/main';
+//import {play} from  '../examples/building_apps_with_react_and_flux/main';
 
 play();
