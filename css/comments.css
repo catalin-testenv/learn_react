@@ -1,0 +1,14 @@
+.commentBox {
+    width: 500px;
+    margin: 0px auto;
+    background-color: #eee;
+}
+.commentBox h4 {
+    display: inline-block;
+    margin-right: 20px;
+}
+#secondary {
+    width: 300px;
+    float: left;
+    background-color: #ccffd3;
+}

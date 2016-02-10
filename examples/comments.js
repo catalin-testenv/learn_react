@@ -7,9 +7,9 @@ class Comment extends React.Component {
     render() {
         return (
             <div className="comment">
-                <h2 className="commentAuthor">
+                <h4 className="commentAuthor">
                     {this.props.author}
-                </h2>
+                </h4>
                 {this.props.children}
             </div>
         );
@@ -75,6 +75,7 @@ class CommentForm extends React.Component {
     }
 }
 
+// Controller-View
 class CommentBox extends React.Component {
     constructor(props) {
         super(props);
@@ -109,7 +110,7 @@ class CommentBox extends React.Component {
     render() {
         return (
             <div className="commentBox">
-                <h1>Comments</h1>
+                <h3>Comments</h3>
                 <CommentList data={this.state.data} />
                 <CommentForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
             </div>
@@ -118,8 +119,14 @@ class CommentBox extends React.Component {
 }
 
 export function play () {
-    ReactDOM.render(
-        React.createElement(CommentBox, {url: '/data/comments.json'}),
-        document.getElementById('content')
-    );
+    let placeholder = document.getElementById('content');
+
+    //ReactDOM.render(React.createElement(Comment, {author: 'myself'}, 'my comment'), placeholder);
+    //ReactDOM.render(<Comment author="myself" >my comment</Comment>, placeholder);
+    //ReactDOM.render(<CommentList data={[
+    //  {"id":1, "author": "Pete Hunt", "text": "This is one comment"},
+    //  {"id":2, "author": "Jordan Walke", "text": "This is *another* comment"}
+    //]} />, placeholder);
+    //ReactDOM.render(<CommentForm onCommentSubmit={(data)=>{console.log(data)}} />, placeholder);
+    ReactDOM.render(<CommentBox url="/data/comments.json" />, placeholder);
 }
