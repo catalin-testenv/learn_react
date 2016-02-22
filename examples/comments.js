@@ -4,6 +4,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class Comment extends React.Component {
+    //static get propTypes() {
+    //    return {author: React.PropTypes.string.isRequired};
+    //}
+    //
+    //static get defaultProps() {
+    //    return {author: 'john'};
+    //}
+
     render() {
         return (
             <div className="comment">
