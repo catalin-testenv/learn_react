@@ -73,16 +73,15 @@ const CommentActions = {
 
 
 // ================== Comments Store Section
-// - listens for events from Dispatcher - events caused by Actions - which are triggered by React Components (or server)
-//   and updates internal state with event.data
+// - listens for events from Dispatcher - events caused by Actions
+//      which are triggered by React Components (or server)
+//      and updates internal state with event.data
 // - then emit 'change' event, further processed by subscribed React Components
 
 // React Components can only READ from CommentStore. Observe: only getters here
-// - emit 'change' event - listened for by other React Components
-// - also has GETTERS where from React Components can READ
-// - NOTICE: React Components cannot WRITE directly to Store
-//           They only can trigger Actions,
-//           which in turn will dispatch events to all subscribed Stores
+// React Components cannot WRITE directly to Store
+//     They only can trigger Actions,
+//     which in turn will dispatch events to all subscribed Stores
 
 // make it SINGLETON instance
 // this singleton class will be actually exported from its module
