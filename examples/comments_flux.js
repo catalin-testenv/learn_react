@@ -71,29 +71,11 @@ const CommentActions = {
     },
 };
 
+
 // ================== Comments Store Section
 // - listens for events from Dispatcher - events caused by Actions - which are triggered by React Components (or server)
 //   and updates internal state with event.data
 // - then emit 'change' event, further processed by subscribed React Components
-
-let _commentsStorePrivateData = [];
-
-// Store CRUD actions. This is store private logic.
-// - register for events caused by Actions
-Dispatcher.register((action) => {
-    switch(action.actionType) {
-        case 'INITIAL_DATA_AVAILABLE':
-            _commentsStorePrivateData = action.initialData.comments;
-            CommentStore.emitChange();
-            break;
-        case 'CREATE_COMMENT':
-            _commentsStorePrivateData.push(action.comment);
-            CommentStore.emitChange();
-            break;
-        default:
-        // no op
-    }
-});
 
 // React Components can only READ from CommentStore. Observe: only getters here
 // - emit 'change' event - listened for by other React Components
@@ -102,27 +84,57 @@ Dispatcher.register((action) => {
 //           They only can trigger Actions,
 //           which in turn will dispatch events to all subscribed Stores
 
-// class CommentStore extends EventEmitter {...};
-// CommentStore = new CommentStore();
-//const CommentStore = Object.assign(Object.create(EventEmitter.prototype) , {
-const CommentStore = Object.assign({}, EventEmitter.prototype, {
+// make it SINGLETON instance
+// this singleton class will be actually exported from its module
+// export default new CommentStore(); # (like Dispatcher)
+
+const CommentStore = new (class CommentStore extends EventEmitter {
+
+    constructor() {
+        super();
+        this._commentsStorePrivateData = [];
+        this._onAction = this._onAction.bind(this);
+        Dispatcher.register(this._onAction);
+    }
+
+    // FLUX boilerplate
     addChangeListener(callback) {
         this.on('change', callback);
-    },
+    }
 
+    // FLUX boilerplate
     removeChangeListener(callback) {
         this.removeListener('change', callback);
-    },
+    }
 
+    // FLUX boilerplate
     emitChange() {
         this.emit('change');
-    },
+    }
+
+    // Store CRUD actions. This is store private logic.
+    // - register for events caused by Actions
+    _onAction(action) {
+        switch(action.actionType) {
+            case 'INITIAL_DATA_AVAILABLE':
+                this._commentsStorePrivateData = action.initialData.comments;
+                this.emitChange();
+                break;
+            case 'CREATE_COMMENT':
+                this._commentsStorePrivateData.push(action.comment);
+                this.emitChange();
+                break;
+            default:
+            // no op
+        }
+    }
 
     // GETTER
     getAllComments() {
-        return _clone(_commentsStorePrivateData);
-    },
-});
+        return _clone(this._commentsStorePrivateData);
+    }
+})();
+
 
 // ======================== React section ==============================
 

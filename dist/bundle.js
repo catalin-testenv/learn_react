@@ -113,25 +113,6 @@ var CommentActions = {
 //   and updates internal state with event.data
 // - then emit 'change' event, further processed by subscribed React Components
 
-var _commentsStorePrivateData = [];
-
-// Store CRUD actions. This is store private logic.
-// - register for events caused by Actions
-_appDispatcher2.default.register(function (action) {
-    switch (action.actionType) {
-        case 'INITIAL_DATA_AVAILABLE':
-            _commentsStorePrivateData = action.initialData.comments;
-            CommentStore.emitChange();
-            break;
-        case 'CREATE_COMMENT':
-            _commentsStorePrivateData.push(action.comment);
-            CommentStore.emitChange();
-            break;
-        default:
-        // no op
-    }
-});
-
 // React Components can only READ from CommentStore. Observe: only getters here
 // - emit 'change' event - listened for by other React Components
 // - also has GETTERS where from React Components can READ
@@ -139,25 +120,78 @@ _appDispatcher2.default.register(function (action) {
 //           They only can trigger Actions,
 //           which in turn will dispatch events to all subscribed Stores
 
-// class CommentStore extends EventEmitter {...};
-// CommentStore = new CommentStore();
-//const CommentStore = Object.assign(Object.create(EventEmitter.prototype) , {
-var CommentStore = Object.assign({}, _events2.default.prototype, {
-    addChangeListener: function addChangeListener(callback) {
-        this.on('change', callback);
-    },
-    removeChangeListener: function removeChangeListener(callback) {
-        this.removeListener('change', callback);
-    },
-    emitChange: function emitChange() {
-        this.emit('change');
-    },
+var CommentStore = new ((function (_EventEmitter) {
+    _inherits(CommentStore, _EventEmitter);
 
-    // GETTER
-    getAllComments: function getAllComments() {
-        return _clone(_commentsStorePrivateData);
+    function CommentStore() {
+        _classCallCheck(this, CommentStore);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentStore).call(this));
+
+        _this._commentsStorePrivateData = [];
+        _this._onAction = _this._onAction.bind(_this);
+        _appDispatcher2.default.register(_this._onAction);
+        return _this;
     }
-});
+
+    // FLUX boilerplate
+
+    _createClass(CommentStore, [{
+        key: 'addChangeListener',
+        value: function addChangeListener(callback) {
+            this.on('change', callback);
+        }
+
+        // FLUX boilerplate
+
+    }, {
+        key: 'removeChangeListener',
+        value: function removeChangeListener(callback) {
+            this.removeListener('change', callback);
+        }
+
+        // FLUX boilerplate
+
+    }, {
+        key: 'emitChange',
+        value: function emitChange() {
+            this.emit('change');
+        }
+
+        // Store CRUD actions. This is store private logic.
+        // - register for events caused by Actions
+
+    }, {
+        key: '_onAction',
+        value: function _onAction(action) {
+            switch (action.actionType) {
+                case 'INITIAL_DATA_AVAILABLE':
+                    this._commentsStorePrivateData = action.initialData.comments;
+                    this.emitChange();
+                    break;
+                case 'CREATE_COMMENT':
+                    this._commentsStorePrivateData.push(action.comment);
+                    this.emitChange();
+                    break;
+                default:
+                // no op
+            }
+        }
+
+        // GETTER
+
+    }, {
+        key: 'getAllComments',
+        value: function getAllComments() {
+            return _clone(this._commentsStorePrivateData);
+        }
+    }]);
+
+    return CommentStore;
+})(_events2.default))();
+// make it SINGLETON instance
+// this singleton class will be actually exported from its module
+// export default new CommentStore(); # (like Dispatcher)
 
 // ======================== React section ==============================
 
@@ -225,10 +259,10 @@ var CommentForm = (function (_React$Component3) {
     function CommentForm(props) {
         _classCallCheck(this, CommentForm);
 
-        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this, props));
 
-        _this3.state = { author: '', text: '' };
-        return _this3;
+        _this4.state = { author: '', text: '' };
+        return _this4;
     }
 
     _createClass(CommentForm, [{
@@ -292,11 +326,11 @@ var CommentBox = (function (_React$Component4) {
     function CommentBox(props) {
         _classCallCheck(this, CommentBox);
 
-        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentBox).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentBox).call(this, props));
 
-        _this4.state = { data: CommentStore.getAllComments() };
-        _this4._onChange = _this4._onChange.bind(_this4);
-        return _this4;
+        _this5.state = { data: CommentStore.getAllComments() };
+        _this5._onChange = _this5._onChange.bind(_this5);
+        return _this5;
     }
 
     // FLUX boilerplate
@@ -365,11 +399,11 @@ var CommentsCounter = (function (_React$Component5) {
     function CommentsCounter(props) {
         _classCallCheck(this, CommentsCounter);
 
-        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentsCounter).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentsCounter).call(this, props));
 
-        _this5.state = { comments: CommentStore.getAllComments() };
-        _this5._onChange = _this5._onChange.bind(_this5);
-        return _this5;
+        _this6.state = { comments: CommentStore.getAllComments() };
+        _this6._onChange = _this6._onChange.bind(_this6);
+        return _this6;
     }
 
     _createClass(CommentsCounter, [{
