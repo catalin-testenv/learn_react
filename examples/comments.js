@@ -4,13 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class Comment extends React.Component {
-    //static get propTypes() {
+    // static get propTypes() {
     //    return {author: React.PropTypes.string.isRequired};
-    //}
-    //
-    //static get defaultProps() {
+    // }
+    
+    // static get defaultProps() {
     //    return {author: 'john'};
-    //}
+    // }
 
     render() {
         return (
@@ -21,12 +21,16 @@ class Comment extends React.Component {
                 {this.props.children}
             </div>
         );
+        // return React.createElement('div', {className: 'comment'}, [
+        //     React.createElement('h4', {className: 'commentAuthor'}, this.props.author),
+        //     this.props.children
+        // ])
     }
 }
 
 class CommentList extends React.Component {
     render() {
-        var commentNodes = this.props.data.map(function(comment) {
+        var commentNodes = this.props.comments.map(function(comment) {
             return (
                 <Comment author={comment.author} key={comment.id}>
                     {comment.text}
@@ -42,6 +46,9 @@ class CommentList extends React.Component {
 }
 
 class CommentForm extends React.Component {
+    static get propTypes() {
+       return {onCommentSubmit: React.PropTypes.func.isRequired};
+    }
     constructor(props){
         super(props);
         this.state = {author: '', text: ''};
@@ -87,7 +94,7 @@ class CommentForm extends React.Component {
 class CommentBox extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: []};
+        this.state = {comments: []};
     }
 
     componentDidMount() {
@@ -100,7 +107,7 @@ class CommentBox extends React.Component {
             dataType: 'json',
             cache: false,
             success: function(data) {
-                this.setState({data: data});
+                this.setState({comments: data});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -109,17 +116,17 @@ class CommentBox extends React.Component {
     }
 
     handleCommentSubmit(comment) {
-        var comments = this.state.data;
+        var comments = this.state.comments;
         comment.id = Date.now();
         var newComments = comments.concat([comment]);
-        this.setState({data: newComments});
+        this.setState({comments: newComments});
     }
 
     render() {
         return (
             <div className="commentBox">
                 <h3>Comments</h3>
-                <CommentList data={this.state.data} />
+                <CommentList comments={this.state.comments} />
                 <CommentForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
             </div>
         );
@@ -131,10 +138,10 @@ export function play () {
 
     //ReactDOM.render(React.createElement(Comment, {author: 'myself'}, 'my comment'), placeholder);
     //ReactDOM.render(<Comment author="myself" >my comment</Comment>, placeholder);
-    //ReactDOM.render(<CommentList data={[
+    // ReactDOM.render(<CommentList comments={[
     //  {"id":1, "author": "Pete Hunt", "text": "This is one comment"},
     //  {"id":2, "author": "Jordan Walke", "text": "This is *another* comment"}
-    //]} />, placeholder);
-    //ReactDOM.render(<CommentForm onCommentSubmit={(data)=>{console.log(data)}} />, placeholder);
+    // ]} />, placeholder);
+    // ReactDOM.render(<CommentForm onCommentSubmit={(comment)=>{console.log(comment)}} />, placeholder);
     ReactDOM.render(<CommentBox url="/data/comments.json" />, placeholder);
 }

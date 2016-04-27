@@ -9,7 +9,7 @@ window._ = _;
 
 // examples ... choose one
 
-//import {play} from  '../examples/comments';
+// import {play} from  '../examples/comments';
 import {play} from  '../examples/comments_flux';
 //import {play} from  '../examples/products';
 //import {play} from  '../examples/products_react_link';
